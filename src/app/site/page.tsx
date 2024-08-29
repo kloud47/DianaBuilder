@@ -10,7 +10,7 @@ export default function Home() {
     <>
       <section className="w-full pt-36 flex flex-col items-center justify-center ">
         <div className="z-0 absolute bottom-0 left-0 right-0 top-0 dark:bg-[linear-gradient(to_right,#444649_1px,transparent_1px),linear-gradient(to_bottom,#444649_1px,transparent_1px)] bg-[linear-gradient(to_right,#161616_1px,transparent_1px),linear-gradient(to_bottom,#161616_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
-        <p>Run your agency in one place</p>
+        <p className="tracking-wider font-medium text-[#cfcfcf]">Run your agency in one place</p>
         <div className="bg-gradient-to-r from-primary to-secondary-foreground text-transparent bg-clip-text relative">
           <h1 className="text-9xl font-bold text-center md:text-[300px]">Diana</h1>
         </div>
@@ -28,7 +28,7 @@ export default function Home() {
           Our straightforward pricing plans are tailored to meet your needs. If {"you're"} not <br/>
           ready to commit you can get started for free.
         </p>
-        <div className="flex items-center gap-4 flex-wrap mt-6">
+        <div className="flex items-center justify-center gap-4 flex-wrap mt-6">
           {pricingCards.map(card =>
             //WIP: Wire up free =>
             (<Card 

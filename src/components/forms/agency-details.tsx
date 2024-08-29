@@ -351,7 +351,7 @@ const AgencyDetails = ({ data }: Props) => {
                                 </FormDescription>
                                 <NumberInput
                                     defaultValue={data?.goal}
-                                    onValueChange={async (val) => {
+                                    onValueChange={async (val: any) => {
                                     if (!data?.id) return
                                     await updateAgencyDetails(data.id, { goal: val })
                                     await saveActivityLogsNotification({
