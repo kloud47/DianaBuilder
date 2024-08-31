@@ -50,7 +50,7 @@ const Sidebar = async ({ id, type }: Props) => {
             subAccounts={subaccounts}
             user={user}
         />
-        // mobile nav
+        {/* mobile nav*/}
         <MenuOptions
             details={details}
             id={id}
