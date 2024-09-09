@@ -3,6 +3,8 @@ import { currentUser } from "@clerk/nextjs/server"
 import { redirect } from "next/navigation"
 import UnauthorizedPage from "../unauthorized/page"
 import Sidebar from "@/components/sidebar"
+import Infobar from "@/components/global/Infobar"
+import BlurPage from "@/components/global/Blur-page"
 
 type Props = {
     children: React.ReactNode
@@ -31,7 +33,12 @@ const Layout = async ({ children, params }: Props) => {
             id={params.agencyId}
             type="agency"
         />
-        <div className="md: pl-[300px]">{children}</div>
+        <div className="lg:pl-[300px]">
+            <Infobar notification={allNoti} />
+            <div className="relative">
+                <BlurPage>{children}</BlurPage>
+            </div>
+        </div>
     </div>
 }
 
