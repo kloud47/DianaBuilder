@@ -1,15 +1,14 @@
 import Unauthorized from '@/components/unauthorized';
-import { getAuthUserDetails, verifyAndAcceptInvitaion } from '@/lib/queries';
+import { getAuthUserDetails, verifyAndAcceptInvitation } from '@/lib/queries';
 import { redirect } from 'next/navigation';
-import { permission } from 'process';
 import React from 'react'
 
 type Props = {
     searchParams: { state: string; code: string }
 }
 
-const Subaccounts = async ({ searchParams }: Props) => {
-    const agencyId = await verifyAndAcceptInvitaion()
+const SubaccountsPage = async ({ searchParams }: Props) => {
+    const agencyId = await verifyAndAcceptInvitation()
 
     if (!agencyId) return <Unauthorized />
 
@@ -34,4 +33,4 @@ const Subaccounts = async ({ searchParams }: Props) => {
 
     return <Unauthorized />
 }
-export default Subaccounts
+export default SubaccountsPage;

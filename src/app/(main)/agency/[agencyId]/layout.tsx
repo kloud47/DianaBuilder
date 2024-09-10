@@ -1,10 +1,10 @@
-import { getNotificationAndUser, verifyAndAcceptInvitaion } from "@/lib/queries"
+import { getNotificationAndUser, verifyAndAcceptInvitation } from "@/lib/queries"
 import { currentUser } from "@clerk/nextjs/server"
 import { redirect } from "next/navigation"
 import UnauthorizedPage from "../unauthorized/page"
 import Sidebar from "@/components/sidebar"
 import Infobar from "@/components/global/Infobar"
-import BlurPage from "@/components/global/Blur-page"
+import BlurPage from "@/components/global/blur-page"
 
 type Props = {
     children: React.ReactNode
@@ -12,7 +12,7 @@ type Props = {
 }
 
 const Layout = async ({ children, params }: Props) => {
-    const agencyId = await verifyAndAcceptInvitaion()
+    const agencyId = await verifyAndAcceptInvitation()
     const user = await currentUser()
     
     if (!agencyId) return redirect('/agency')

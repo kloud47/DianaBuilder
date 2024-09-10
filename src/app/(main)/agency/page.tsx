@@ -1,5 +1,5 @@
 import AgencyDetails from "@/components/forms/agency-details";
-import { getAuthUserDetails, verifyAndAcceptInvitaion } from "@/lib/queries";
+import { getAuthUserDetails, verifyAndAcceptInvitation } from "@/lib/queries";
 import { currentUser } from "@clerk/nextjs/server";
 import { Plan } from "@prisma/client";
 import { redirect } from "next/navigation";
@@ -10,7 +10,7 @@ const Page = async ({ searchParams }: {
     // const authUser = await currentUser()
     // if (!authUser) return redirect('/sign-in')
 
-    const agencyId = await verifyAndAcceptInvitaion()
+    const agencyId = await verifyAndAcceptInvitation()
     console.log(agencyId)
 
     

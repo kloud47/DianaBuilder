@@ -4,6 +4,7 @@ import { db } from "./db"
 import { redirect } from "next/navigation"
 import { Agency, Plan, Role, SubAccount, User } from "@prisma/client"
 import { v4 } from "uuid"
+import { CreateMediaType } from "./types"
 
 export const getAuthUserDetails = async () => {
     const user = await currentUser()
@@ -122,7 +123,7 @@ export const createTeamUser = async (agencyId: string, user: User) => {
     return response
 }
 
-export const verifyAndAcceptInvitaion = async () => {
+export const verifyAndAcceptInvitation = async () => {
     const user = await currentUser();
     if (!user) return redirect('/sign-in')
 
@@ -476,4 +477,34 @@ export const sendInvitation = async (
         }
     
         return resposne
+}
+
+export const getMedia = async (subaccountId: string) => {
+    const mediafiles = await db.subAccount.findUnique({
+        where: {
+            id: subaccountId,
+        },
+        include: { Media: true },
+    })
+    return mediafiles
+}
+
+export const createMedia = async (subaccountId: string, mediaFiles: CreateMediaType) => {
+    const response = await db.media.create({
+        data: {
+            link: mediaFiles.link,
+            name: mediaFiles.name,
+            subAccountId: subaccountId
+        },
+    })
+    return response;
+}
+
+export const deleteMedia = async (mediaId: string) => {
+    const response = await db.media.delete({
+        where: {
+            id: mediaId,
+        },
+    })
+    return response
 }

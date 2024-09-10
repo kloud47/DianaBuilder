@@ -282,7 +282,7 @@ const MenuOptions = ({
                         >
                             <Link
                             href={sidebarOptions.link}
-                            className="flex items-center gap-2 hover:bg-transparent rounded-md transition-all md:w-full w-[320px]"
+                            className="flex items-center gap-2 rounded-md transition-all md:w-full w-[320px]"
                             >
                             {val}
                             <span>{sidebarOptions.name}</span>
