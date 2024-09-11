@@ -54,7 +54,7 @@ const MediaCard = ({ file }: Props) => {
                     <p>{file.name}</p>
                     <div className="absolute top-4 right-4 p-[1px] cursor-pointer ">
                     <DropdownMenuTrigger>
-                        <MoreHorizontal />
+                        <MoreHorizontal className='hover:scale-110 duration-100' />
                     </DropdownMenuTrigger>
                     </div>
                 </div>
@@ -72,23 +72,7 @@ const MediaCard = ({ file }: Props) => {
                     <Copy size={15} /> Copy Image Link
                     </DropdownMenuItem>
                     <AlertDialogTrigger asChild>
-                    <DropdownMenuItem className="flex gap-2"
-                        onClick={async () => {
-                            setLoading(true)
-                            const response = await deleteMedia(file.id)
-                            await saveActivityLogsNotification({
-                                agencyId: undefined,
-                                description: `Deleted a media file | ${response?.name}`,
-                                subaccountId: response.subAccountId,
-                            })
-                            toast({
-                                title: 'Deleted File',
-                                description: 'Successfully deleted the file',
-                            })
-                            setLoading(false)
-                            router.refresh()
-                            }}
-                    >
+                    <DropdownMenuItem className="flex gap-2">
                         <Trash size={15} /> Delete File
                     </DropdownMenuItem>
                     </AlertDialogTrigger>
@@ -108,22 +92,22 @@ const MediaCard = ({ file }: Props) => {
                 <AlertDialogFooter className="flex items-center">
                 <AlertDialogCancel className="mb-2">Cancel</AlertDialogCancel>
                 <AlertDialogAction
-                    disabled={loading}
+                    // disabled={loading}
                     className="bg-destructive hover:bg-destructive"
                     onClick={async () => {
-                    setLoading(true)
-                    const response = await deleteMedia(file.id)
-                    await saveActivityLogsNotification({
-                        agencyId: undefined,
-                        description: `Deleted a media file | ${response?.name}`,
-                        subaccountId: response.subAccountId,
-                    })
-                    toast({
-                        title: 'Deleted File',
-                        description: 'Successfully deleted the file',
-                    })
-                    setLoading(false)
-                    router.refresh()
+                        setLoading(true)
+                        const response = await deleteMedia(file.id)
+                        await saveActivityLogsNotification({
+                            agencyId: undefined,
+                            description: `Deleted a media file | ${response?.name}`,
+                            subaccountId: response.subAccountId,
+                        })
+                        toast({
+                            title: 'Deleted File',
+                            description: 'Successfully deleted the file',
+                        })
+                        setLoading(false)
+                        router.refresh()
                     }}
                 >
                     Delete

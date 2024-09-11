@@ -1,8 +1,9 @@
 import { GetMediaFiles } from '@/lib/types'
 import React from 'react'
 import MediaUploadButton from './upload-button'
-import { Command, CommandEmpty, CommandInput, CommandItem, CommandList } from '../ui/command'
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '../ui/command'
 import MediaCard from './media-card'
+import { FolderSearch } from 'lucide-react'
 
 type Props = {
     data: GetMediaFiles
@@ -20,16 +21,29 @@ const MediaComponent = ({ data, subaccountId }: Props) => {
                 <CommandInput placeholder='Search for file name...' />
                 <CommandList>
                     <CommandEmpty>No media files</CommandEmpty>
-                    <div className='flex flex-wrap gap-4 pt-4'>
-                        {data?.Media.map(file => (
-                            <CommandItem 
-                                key={file.id}
-                                className='p-0 max-w-[300px] w-full rounded-lg !bg-transparent !font-medium !text-white'
-                            >
-                                <MediaCard file={file} />
-                            </CommandItem>
-                        ))}
-                    </div>
+                    <CommandGroup heading="Media Files" className='mt-2 border-2 rounded-lg '>
+                        <div className='flex flex-wrap gap-4 pt-4'>
+                            {data?.Media.map(file => (
+                                <CommandItem 
+                                    key={file.id}
+                                    className='p-0 max-w-[300px] w-full rounded-lg !bg-transparent !font-medium !text-white'
+                                >
+                                    <MediaCard file={file} />
+                                </CommandItem>
+                            ))}
+                            {!data?.Media.length && (
+                                <div className="flex items-center justify-center w-full flex-col">
+                                <FolderSearch
+                                    size={200}
+                                    className="dark:text-muted text-slate-300"
+                                />
+                                <p className="text-muted-foreground ">
+                                    Empty! no files to show.
+                                </p>
+                                </div>
+                            )}    
+                        </div>
+                    </CommandGroup>
                 </CommandList>
             </Command>
         </div>
