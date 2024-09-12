@@ -187,11 +187,11 @@ export const verifyAndAcceptInvitation = async () => {
 
 export const updateAgencyDetails = async (
   agencyId: string,
-  agencyDetails: Partial<Agency>
+  goalNum: number
 ) => {
   const response = await db.agency.update({
     where: { id: agencyId },
-    data: { ...agencyDetails },
+    data: { goal: goalNum },
   });
   return response;
 };
@@ -686,12 +686,14 @@ export const _getTicketsWithAllRelations = async (laneId: string) => {
   return response;
 };
 
-export const getSubaccountTeamMembers = async (subaccountId: string) => {
+export const getSubAccountTeamMembers = async (subaccountId: string) => {
   const subaccountUsersWithAccess = await db.user.findMany({
     where: {
       Agency: {
         SubAccount: {
-          some: { id: subaccountId },
+          some: {
+            id: subaccountId,
+          },
         },
       },
       role: "SUBACCOUNT_USER",
@@ -706,11 +708,11 @@ export const getSubaccountTeamMembers = async (subaccountId: string) => {
   return subaccountUsersWithAccess;
 };
 
-export const searchContacts = async (searchTerm: string) => {
+export const searchContacts = async (searchTerms: string) => {
   const response = await db.contact.findMany({
     where: {
       name: {
-        contains: searchTerm,
+        contains: searchTerms,
       },
     },
   });
@@ -755,5 +757,63 @@ export const deleteTicket = async (ticketId: string) => {
     },
   });
 
+  return response;
+};
+
+export const upsertTag = async (
+  subaccountId: string,
+  tag: Prisma.TagUncheckedCreateInput
+) => {
+  const response = await db.tag.upsert({
+    where: { id: tag.id || v4(), subAccountId: subaccountId },
+    update: tag,
+    create: { ...tag, subAccountId: subaccountId },
+  });
+
+  return response;
+};
+
+export const deleteTag = async (tagId: string) => {
+  const response = await db.tag.delete({ where: { id: tagId } });
+  return response;
+};
+
+export const getTagsForSubaccount = async (subaccountId: string) => {
+  const response = await db.subAccount.findUnique({
+    where: { id: subaccountId },
+    select: { Tags: true },
+  });
+  return response;
+};
+
+export const updateTicketsOrder = async (tickets: Ticket[]) => {
+  try {
+    const updateTrans = tickets.map((ticket) =>
+      db.ticket.update({
+        where: {
+          id: ticket.id,
+        },
+        data: {
+          order: ticket.order,
+          laneId: ticket.laneId,
+        },
+      })
+    );
+
+    await db.$transaction(updateTrans);
+    console.log("🟢 Done reordered 🟢");
+  } catch (error) {
+    console.log(error, "🔴 ERROR UPDATE TICKET ORDER");
+  }
+};
+
+export const upsertContact = async (
+  contact: Prisma.ContactUncheckedCreateInput
+) => {
+  const response = await db.contact.upsert({
+    where: { id: contact.id || v4() },
+    update: contact,
+    create: contact,
+  });
   return response;
 };

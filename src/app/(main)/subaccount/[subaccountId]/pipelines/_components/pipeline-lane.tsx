@@ -87,7 +87,7 @@ const PipelineLane: React.FC<PipelaneLaneProps> = ({
         <TicketForm
           getNewTicket={addNewTicket}
           laneId={laneDetails.id}
-          subAccountId={subaccountId}
+          subaccountId={subaccountId}
         />
       </CustomModal>
     );

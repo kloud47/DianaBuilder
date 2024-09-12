@@ -32,7 +32,7 @@ const Pipline = async ({ params }: Props) => {
   )) as LaneDetails[];
 
   return (
-    <Tabs>
+    <Tabs defaultValue="view" className="w-full">
       <TabsList className="bg-transparent border-b-2 h-16 w-full justify-between mb-4">
         <PipelineInfobar
           pipelineId={params.pipelineId}

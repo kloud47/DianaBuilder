@@ -85,7 +85,7 @@ const PipelineTicket = ({
         <TicketForm
           getNewTicket={editNewTicket}
           laneId={ticket.laneId}
-          subAccountId={subaccountId}
+          subaccountId={subaccountId}
         />
       </CustomModal>,
       async () => {
