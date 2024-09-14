@@ -1,5 +1,4 @@
 "use client";
-import { Badge } from "@/components/ui/badge";
 import { EditorBtns, defaultStyles } from "@/lib/contants";
 import { EditorElement, useEditor } from "@/providers/editor/editor-provider";
 import clsx from "clsx";
@@ -7,6 +6,7 @@ import React from "react";
 import { v4 } from "uuid";
 import Recursive from "./recursive";
 import { Trash } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 type Props = { element: EditorElement };
 
@@ -48,6 +48,89 @@ const Container = ({ element }: Props) => {
               name: "Container",
               styles: { ...defaultStyles },
               type: "container",
+            },
+          },
+        });
+        break;
+      case "video":
+        dispatch({
+          type: "ADD_ELEMENT",
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: {
+                src: "https://www.youtube.com/embed/A3l6YYkXzzg?si=zbcCeWcpg7Cwf8W1",
+              },
+              id: v4(),
+              name: "Video",
+              styles: {},
+              type: "video",
+            },
+          },
+        });
+        break;
+      case "link":
+        dispatch({
+          type: "ADD_ELEMENT",
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: {
+                innerText: "Link Element",
+                href: "#",
+              },
+              id: v4(),
+              name: "Link",
+              styles: {
+                color: "black",
+                ...defaultStyles,
+              },
+              type: "link",
+            },
+          },
+        });
+        break;
+      case "2Col":
+        dispatch({
+          type: "ADD_ELEMENT",
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: [
+                {
+                  content: [],
+                  id: v4(),
+                  name: "Container",
+                  styles: { ...defaultStyles, width: "100%" },
+                  type: "container",
+                },
+                {
+                  content: [],
+                  id: v4(),
+                  name: "Container",
+                  styles: { ...defaultStyles, width: "100%" },
+                  type: "container",
+                },
+              ],
+              id: v4(),
+              name: "Two Columns",
+              styles: { ...defaultStyles, display: "flex" },
+              type: "2Col",
+            },
+          },
+        });
+        break;
+      case "contactForm":
+        dispatch({
+          type: "ADD_ELEMENT",
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: [],
+              id: v4(),
+              name: "Contact Form",
+              styles: {},
+              type: "contactForm",
             },
           },
         });
