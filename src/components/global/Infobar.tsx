@@ -52,7 +52,10 @@ const Infobar = ({ notification, role, className, subAccountId }: Props) => {
         className
       )}
     >
-      <Link href={"/site"} className="flex items-center gap-2 cursor-pointer">
+      <Link
+        href={"/site"}
+        className="flex items-center gap-2 cursor-pointer lg:ml-0 ml-10"
+      >
         <Image
           src={"/assets/plura-logo.svg"}
           width={40}

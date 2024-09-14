@@ -13,6 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { format } from "date-fns/format";
 import { Badge } from "@/components/ui/badge";
 import CreateContactButton from "./_components/CreateContactButton";
+import BlurPage from "@/components/global/blur-page";
 
 type Props = {
   params: { subaccountId: string };
@@ -61,7 +62,7 @@ const ContactPage = async ({ params }: Props) => {
   };
 
   return (
-    <div>
+    <BlurPage>
       <div className="flex justify-between items-center">
         <h1 className="text-4xl p-4">Contacts</h1>
         <CreateContactButton subaccountId={params.subaccountId} />
@@ -103,7 +104,7 @@ const ContactPage = async ({ params }: Props) => {
           ))}
         </TableBody>
       </Table>
-    </div>
+    </BlurPage>
   );
 };
 export default ContactPage;

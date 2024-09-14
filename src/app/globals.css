@@ -99,6 +99,20 @@ B (255 */
   }
 }
 
+/* @layer utilities {
+  .StartScroll::-webkit-scrollbar {
+    overflow-y: scroll;
+  }
+  .StartScroll::-webkit-scrollbar {
+    background: #fff;
+  }
+
+  .StartScroll::-webkit-scrollbar {
+    background-color: blue;
+    border-radius: 20px;
+  }
+} */
+
 .dotPattern {
   background-image: radial-gradient(rgb(35, 40, 68) 1px, transparent 1px);
   background-size: 25px 25px;
@@ -120,11 +134,11 @@ B (255 */
   }
 }
 
-html {
+/* html {
   overflow: scroll;
-}
+} */
 
 ::-webkit-scrollbar {
   width: 0px;
-  background: transparent; /* make scrollbar transparent */
+  background: transparent;
 }

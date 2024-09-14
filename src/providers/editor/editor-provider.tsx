@@ -1,5 +1,8 @@
+"use client";
 import { EditorBtns } from "@/lib/contants";
 import { EditorAction } from "./editor-actions";
+import { createContext, Dispatch, useContext, useReducer } from "react";
+import { FunnelPage } from "@prisma/client";
 
 export type DeviceTypes = "Desktop" | "Mobile" | "Tablet";
 
@@ -8,7 +11,7 @@ export type EditorElement = {
   styles: React.CSSProperties;
   name: string;
   type: EditorBtns;
-  content: EditorElement[] | {};
+  content: EditorElement[] | { href?: string; innerText: string };
 };
 
 export type Editor = {
@@ -272,12 +275,127 @@ const editorReducer = (
       return toggleLiveMode;
 
     case "REDO":
+      if (state.history.currentIndex < state.history.history.length - 1) {
+        const nextIndex = state.history.currentIndex + 1;
+        const nextEditorState = { ...state.history.history[nextIndex] };
+        const redoState = {
+          ...state,
+          editor: nextEditorState,
+          history: {
+            ...state.history,
+            currentIndex: nextIndex,
+          },
+        };
+        return redoState;
+      }
+      return state;
+
     case "UNDO":
+      if (state.history.currentIndex > 0) {
+        const prevIndex = state.history.currentIndex - 1;
+        const nextEditorState = { ...state.history.history[prevIndex] };
+        const undoState = {
+          ...state,
+          editor: nextEditorState,
+          history: {
+            ...state.history,
+            currentIndex: prevIndex,
+          },
+        };
+        return undoState;
+      }
+      return state;
+
     // case 'LOAD_ LOCALSTORAGE':
     case "LOAD_DATA":
+      return {
+        ...initialState,
+        editor: {
+          ...initialState.editor,
+          elements: action.payload.elements || initialEditorState.elements,
+          liveMode: !!action.payload.withLive,
+        },
+      };
     case "SET_FUNNELPAGE_ID":
-    case "SET_FUNNELPAGE_ID":
+      const { funnelPageId } = action.payload;
+      const updatedEditorStateWithFunnelPageId = {
+        ...state.editor,
+        funnelPageId,
+      };
+
+      const updatedHistoryWithFunnelPageId = [
+        ...state.history.history.slice(0, state.history.currentIndex + 1),
+        { ...updatedEditorStateWithFunnelPageId }, // Save a copy of the updated state
+      ];
+
+      const funnelPageIdState = {
+        ...state,
+        editor: updatedEditorStateWithFunnelPageId,
+        history: {
+          ...state.history,
+          history: updatedHistoryWithFunnelPageId,
+          currentIndex: updatedHistoryWithFunnelPageId.length - 1,
+        },
+      };
+      return funnelPageIdState;
+
     default:
       return state;
   }
 };
+
+export type EditorContextData = {
+  device: DeviceTypes;
+  previewMode: boolean;
+  setPreviewMode: (previewMode: boolean) => void;
+  setDevice: (device: DeviceTypes) => void;
+};
+
+export const EditorContext = createContext<{
+  state: EditorState;
+  dispatch: Dispatch<EditorAction>;
+  subaccountId: string;
+  funnelId: string;
+  pageDetails: FunnelPage | null;
+}>({
+  state: initialState,
+  dispatch: () => undefined,
+  subaccountId: "",
+  funnelId: "",
+  pageDetails: null,
+});
+
+type EditorProps = {
+  children: React.ReactNode;
+  subaccountId: string;
+  funnelId: string;
+  pageDetails: FunnelPage;
+};
+
+const EditorProvider = (props: EditorProps) => {
+  const [state, dispatch] = useReducer(editorReducer, initialState);
+
+  return (
+    <EditorContext.Provider
+      value={{
+        state,
+        dispatch,
+        subaccountId: props.subaccountId,
+        funnelId: props.funnelId,
+        pageDetails: props.pageDetails,
+      }}
+    >
+      {props.children}
+    </EditorContext.Provider>
+  );
+};
+
+export const useEditor = () => {
+  const context = useContext(EditorContext);
+  if (!context) {
+    throw new Error("useEditor Hook must be used within the editor Provider");
+  }
+  return context;
+};
+
+export default EditorProvider;

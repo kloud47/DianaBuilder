@@ -7,6 +7,7 @@ import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import FunnelSettings from "../_components/funnel-settings";
 import FunnelSteps from "../_components/funnel-steps";
+import BlurPage from "@/components/global/blur-page";
 
 type Props = {
   params: { funnelId: string; subaccountId: string };
@@ -19,7 +20,7 @@ const FunnelPage = async ({ params }: Props) => {
     return redirect(`/subaccount/${params.subaccountId}/funnels`);
 
   return (
-    <>
+    <BlurPage>
       <Link
         href={`/subaccount/${params.subaccountId}/funnels`}
         className="flex justify-start gap-2 mb-4 text-muted-foreground"
@@ -29,7 +30,7 @@ const FunnelPage = async ({ params }: Props) => {
           <span>Back</span>
         </Button>
       </Link>
-      <h1 className="text-3xl mb-8">{funnelPages.name}</h1>
+      <h1 className="text-3xl mb-2 ml-2 border-b pb-2">{funnelPages.name}</h1>
       <Tabs defaultValue="steps" className="w-full">
         <TabsList className="grid  grid-cols-2 w-[50%] bg-transparent ">
           <TabsTrigger value="steps">Steps</TabsTrigger>
@@ -50,7 +51,7 @@ const FunnelPage = async ({ params }: Props) => {
           />
         </TabsContent>
       </Tabs>
-    </>
+    </BlurPage>
   );
 };
 

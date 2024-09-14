@@ -51,13 +51,13 @@ export type EditorAction =
     }
   | { type: "REDO" }
   | { type: "UNDO" }
-  | {
-      type: "LOAD_DATA";
-      payload: {
-        elements: EditorElement[];
-        withLive: boolean;
-      };
-    }
+  // | {
+  //     type: "LOAD_DATA";
+  //     payload: {
+  //       elements: EditorElement[];
+  //       withLive: boolean;
+  //     };
+  //   }
   | {
       type: "SET_FUNNELPAGE_ID";
       payload: {

@@ -1,52 +1,59 @@
-import { GetMediaFiles } from '@/lib/types'
-import React from 'react'
-import MediaUploadButton from './upload-button'
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '../ui/command'
-import MediaCard from './media-card'
-import { FolderSearch } from 'lucide-react'
+import { GetMediaFiles } from "@/lib/types";
+import React from "react";
+import MediaUploadButton from "./upload-button";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "../ui/command";
+import MediaCard from "./media-card";
+import { FolderSearch } from "lucide-react";
 
 type Props = {
-    data: GetMediaFiles
-    subaccountId: string
-}
+  data: GetMediaFiles;
+  subaccountId: string;
+};
 
 const MediaComponent = ({ data, subaccountId }: Props) => {
-    return (
-        <div className='flex flex-col gap-4 h-full w-full'>
-            <div className='flex justify-between items-center'>
-                <h1 className='text-4xl'>Media Bucket</h1>
-                <MediaUploadButton subaccountId={subaccountId} />
+  return (
+    <div className="flex flex-col gap-4 h-full w-full">
+      <div className="flex justify-between items-center">
+        <h1 className="text-4xl">Media Bucket</h1>
+        <MediaUploadButton subaccountId={subaccountId} />
+      </div>
+      <Command className="bg-transparent gap-y-2">
+        <CommandInput placeholder="Search for file name..." />
+        <CommandList>
+          <CommandEmpty>No media files</CommandEmpty>
+          <CommandGroup heading="Media Files" className="border-2 rounded-lg">
+            <div className="flex flex-wrap gap-4 pt-4">
+              {data?.Media.map((file) => (
+                <CommandItem
+                  key={file.id}
+                  className="p-0 max-w-[300px] w-full rounded-lg !bg-transparent !font-medium !text-white"
+                >
+                  <MediaCard file={file} />
+                </CommandItem>
+              ))}
+              {!data?.Media.length && (
+                <div className="flex items-center justify-center w-full flex-col">
+                  <FolderSearch
+                    size={200}
+                    className="dark:text-muted text-slate-300"
+                  />
+                  <p className="text-muted-foreground ">
+                    Empty! no files to show.
+                  </p>
+                </div>
+              )}
             </div>
-            <Command className='bg-transparent'>
-                <CommandInput placeholder='Search for file name...' />
-                <CommandList>
-                    <CommandEmpty>No media files</CommandEmpty>
-                    <CommandGroup heading="Media Files" className='mt-2 border-2 rounded-lg '>
-                        <div className='flex flex-wrap gap-4 pt-4'>
-                            {data?.Media.map(file => (
-                                <CommandItem 
-                                    key={file.id}
-                                    className='p-0 max-w-[300px] w-full rounded-lg !bg-transparent !font-medium !text-white'
-                                >
-                                    <MediaCard file={file} />
-                                </CommandItem>
-                            ))}
-                            {!data?.Media.length && (
-                                <div className="flex items-center justify-center w-full flex-col">
-                                <FolderSearch
-                                    size={200}
-                                    className="dark:text-muted text-slate-300"
-                                />
-                                <p className="text-muted-foreground ">
-                                    Empty! no files to show.
-                                </p>
-                                </div>
-                            )}    
-                        </div>
-                    </CommandGroup>
-                </CommandList>
-            </Command>
-        </div>
-    )
-}
+          </CommandGroup>
+        </CommandList>
+      </Command>
+    </div>
+  );
+};
 export default MediaComponent;
