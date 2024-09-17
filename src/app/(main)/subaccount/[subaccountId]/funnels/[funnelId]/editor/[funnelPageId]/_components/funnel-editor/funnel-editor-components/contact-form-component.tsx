@@ -68,7 +68,7 @@ const ContactFormComponent = (props: Props) => {
   const onFormSubmit = async (
     values: z.infer<typeof ContactUserFormSchema>
   ) => {
-    if (!state.editor.liveMode) return;
+    if (!state.editor.liveMode || state.editor.previewMode) return;
 
     try {
       const response = await upsertContact({
