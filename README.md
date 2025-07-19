@@ -17,5 +17,3 @@ Tech stack used - NextJS, Prisma ORM, mysql, tailwind css
 External libraries - schadcn
 ## Appendix
 
-Any additional information goes here
-
