@@ -10,3 +10,12 @@
 -> All subaccounts have access to the Web Editor platform in the application which can be used to edit websites and build your personalized websites with ease without any code.
 
 -> All Agencies have their own media bucket which has a collection of images that can be used in web editor.
+## Documentation
+
+Tech stack used - NextJS, Prisma ORM, mysql, tailwind css
+
+External libraries - schadcn
+## Appendix
+
+Any additional information goes here
+
